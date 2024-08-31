@@ -1,0 +1,81 @@
+<script>
+  function getDecodedParams(url) {
+    // Find the last occurrence of "?" in the URL
+    const queryStringIndex = url.lastIndexOf("?");
+
+    // If no "?" is found, return an empty object
+    if (queryStringIndex === -1) {
+      return {};
+    }
+
+    // Extract the part of the URL after the last question mark
+    const queryString = url.slice(queryStringIndex + 1);
+
+    // Create an object to store the parameters
+    const params = new URLSearchParams(queryString);
+
+    // Initialize an empty object to store the decoded parameters
+    let decodedParams = {};
+
+    // Iterate through each parameter and decode its value
+    for (let [key, value] of params.entries()) {
+      decodedParams[key] = decodeURIComponent(value);
+    }
+
+    return decodedParams;
+  }
+
+  function removeUtmParams(url) {
+    // Create a URL object
+    const urlObj = new URL(url);
+
+    // Get all search parameters
+    const params = urlObj.searchParams;
+
+    // List of UTM parameters to remove
+    const utmParams = [
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_term",
+      "utm_content",
+    ];
+
+    // Iterate through the UTM parameters and delete them if they exist
+    utmParams.forEach((param) => {
+      if (params.has(param)) {
+        params.delete(param);
+      }
+    });
+
+    // Rebuild the URL without the UTM parameters
+    return (
+      urlObj.origin +
+      urlObj.pathname +
+      (params.toString() ? "?" + params.toString() : "") +
+      urlObj.hash
+    );
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+      const decodedParams = getDecodedParams(window.location.href);
+
+      if (decodedParams.text && decodedParams.url) {
+        window.location.href =
+      "https://bsky.app/intent/compose?text=" +
+        encodeURIComponent(decodedParams.text) +
+        " " +
+        encodeURIComponent(removeUtmParams(decodedParams.url));
+    } else if (decodedParams.url) {
+      window.location.href =
+        "https://bsky.app/intent/compose?text=" +
+        encodeURIComponent(removeUtmParams(decodedParams.url));
+    } else if (decodedParams.text) {
+      window.location.href =
+        "https://bsky.app/intent/compose?text=" +
+        encodeURIComponent(decodedParams.text);
+    } else {
+      window.location.href = "https://bsky.app";
+    }
+  });
+</script>
