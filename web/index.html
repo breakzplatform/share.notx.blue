@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirect Twitter Share to Bluesky</title>
+    <meta property="og:title" content='Redirect Twitter Share to Bluesky' />
+    <meta name="twitter:title" content='Redirect Twitter Share to Bluesky' />
+    <meta name="description" content="See what's hot 🔥 on Bluesky" />
+    <meta property="og:description" content="With this extension, you can easily share from websites to Bluesky. Just click on the current Twitter (X) share button on the page, and the extension will redirect you to post on Bluesky." />
+    <meta name="twitter:description" content="With this extension, you can easily share from websites to Bluesky. Just click on the current Twitter (X) share button on the page, and the extension will redirect you to post on Bluesky." />
+    <meta property="og:image" content="https://share.notx.blue/share.png" />
+    <meta name="twitter:image" content="https://share.notx.blue/share.png" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;💙&lt;/text&gt;&lt;/svg&gt;"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .text-blue-bsky {
+        color: rgb(32, 139, 254);
+      }
+
+      .bg-blue-bsky {
+        background-color: rgb(32, 139, 254);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <template>
+        <div
+          class="min-h-screen flex flex-col items-center justify-center bg-gray-50"
+        >
+          <!-- Header -->
+          <header class="text-center mb-8">
+            <img src="logo.png" class="mx-auto my-8" />
+            <h1 class="text-4xl font-bold text-gray-800">{{ $t('title') }}</h1>
+            <p class="text-lg text-gray-600 mt-6 max-w-3xl mx-auto">
+              {{ $t('description') }}
+            </p>
+          </header>
+
+          <!-- Call to Action Buttons -->
+          <div class="flex space-x-4 mb-12">
+            <a
+              :href="$t('getForChromeUrl')"
+              target="_blank"
+              class="bg-blue-bsky text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-200"
+            >
+              {{ $t('getForChrome') }}
+            </a>
+            <a
+              :href="$t('getForFirefoxUrl')"
+              target="_blank"
+              class="bg-blue-bsky text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-200"
+            >
+              {{ $t('getForFirefox') }}
+            </a>
+          </div>
+          <footer class="text-center">
+            <p
+              v-if="currentLanguage === 'en'"
+              class="text-black text-xs lowercase"
+            >
+              Work in Progress. Expect bugs • part of
+              <a href="https://notx.blue" class="text-blue-bsky">notx.blue</a>
+              by
+              <a
+                href="https://bsky.app/profile/joseli.to"
+                class="text-blue-bsky"
+                >@joseli.to</a
+              >
+            </p>
+            <p v-else class="text-black text-xs lowercase">
+              Em desenvolvimento ativo • Feito em Pernambuco • Parte do
+              <a href="https://notx.blue" class="text-blue-bsky">notx.blue</a>
+              por
+              <a
+                href="https://bsky.app/profile/joseli.to"
+                class="text-blue-bsky"
+                >@joseli.to</a
+              >
+            </p>
+          </footer>
+        </div>
+      </template>
+    </div>
+
+    <!-- Import Vue 3 and Vue I18n via unpkg using global variables -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue-i18n@9/dist/vue-i18n.global.js"></script>
+
+    <script>
+      // Define the translations
+      const messages = {
+        en: {
+          title: "Redirect Twitter Share to Bluesky",
+          description:
+            'With this extension, you can easily share from websites to Bluesky. Just click on the current Twitter (X) share button on the page, and the extension will redirect you to post on Bluesky.',
+          getForChrome: "Get it for Chrome",
+          getForChromeUrl:
+            "https://chromewebstore.google.com/detail/redirect-twitter-share-to/llobhiaihifghfpkflpmnocdhimpkobf",
+          getForFirefox: "Get it for Firefox",
+          getForFirefoxUrl:
+            "https://addons.mozilla.org/en-US/firefox/addon/share-notx-blue/",
+        },
+        "pt-br": {
+          title: 'Substitua o "Compartilhar no Twitter/X" para o Bluesky',
+          description:
+            "Com esta extensão, você pode compartilhar facilmente de websites para o Bluesky. Basta clicar no botão de compartilhamento do Twitter/X na página, e a extensão redirecionará você para postar no Bluesky. Funciona com qualquer site!",
+          getForChrome: "Baixe para Chrome",
+          getForChromeUrl:
+            "https://chromewebstore.google.com/detail/redirect-twitter-share-to/llobhiaihifghfpkflpmnocdhimpkobf",
+          getForFirefox: "Baixe para Firefox",
+          getForFirefoxUrl:
+            "https://addons.mozilla.org/pt-BR/firefox/addon/share-notx-blue/",
+        },
+      };
+
+      // Detect the user's language preference
+      const detectLanguage = () => {
+        const userLang = navigator.language || navigator.userLanguage;
+        return userLang.startsWith("pt") ? "pt-br" : "en";
+      };
+
+      // Create the i18n instance
+      const i18n = VueI18n.createI18n({
+        locale: detectLanguage(), // Set the detected language as the default locale
+        fallbackLocale: "en", // Set fallback locale
+        messages, // Set locale messages
+      });
+
+      // Create the Vue app
+      const app = Vue.createApp({
+        data() {
+          return {
+            messages,
+            currentLanguage: detectLanguage(),
+          };
+        },
+        template: document.querySelector("#app template").innerHTML,
+      });
+
+      // Use the i18n instance
+      app.use(i18n);
+
+      // Mount the app
+      app.mount("#app");
+    </script>
+  </body>
+</html>
