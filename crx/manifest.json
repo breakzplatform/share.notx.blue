@@ -1,35 +1,51 @@
 {
-    "manifest_version": 3,
-    "name": "Redirect Twitter Share to BlueSky (Unofficial) (Alpha)",
-    "version": "1.5",
-    "description": "When clicking in a 'Post to Twitter/X' button, replaces the url to post in BlueSky",
-    "permissions": [
-      "declarativeNetRequestWithHostAccess"
-    ],
-    "host_permissions": [
-        "*://x.com/intent*",
-        "*://twitter.com/intent*",
-        "*://x.com/share*",
-        "*://twitter.com/share*"
-    ],
-    "declarative_net_request": {
-      "rule_resources": [
-        {
-          "id": "ruleset_1",
-          "enabled": true,
-          "path": "rules.json"
-        }
-      ]
+  "manifest_version": 3,
+  "name": "Redirect Twitter Share to Bluesky",
+  "version": "1.6.0",
+  "description": "When clicking in a 'Post to Twitter/X' button, replaces the url to post in Bluesky",
+  "permissions": ["declarativeNetRequestWithHostAccess", "tabs", "activeTab", "scripting"],
+  "background": {
+    "scripts": ["background.js"],
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {           
+      "16": "share-16.png",
+      "24": "share-24.png",
+      "32": "share-32.png",
+      "48": "share-48.png" 
     },
-    "web_accessible_resources": [
+    "default_title": "Share to Bluesky"
+  },
+  "host_permissions": [
+    "*://x.com/intent*",
+    "*://twitter.com/intent*",
+    "*://x.com/share*",
+    "*://twitter.com/share*"
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
       {
-        "resources": [],
-        "matches": ["<all_urls>"]
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
       }
-    ],
-    "icons": {
-      "48": "icon48.png",
-      "128": "icon128.png"
+    ]
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "icons": {
+    "48": "share-48.png",
+    "128": "share-128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "share.notx.blue@joseli.to",
+      "strict_min_version": "113.0"
     }
   }
-  
+}

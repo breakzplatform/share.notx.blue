@@ -4,21 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Redirect Twitter Share to Bluesky</title>
-    <meta property="og:title" content='Redirect Twitter Share to Bluesky' />
-    <meta name="twitter:title" content='Redirect Twitter Share to Bluesky' />
+    <meta property="og:title" content="Redirect Twitter Share to Bluesky" />
+    <meta name="twitter:title" content="Redirect Twitter Share to Bluesky" />
     <meta name="description" content="See what's hot 🔥 on Bluesky" />
-    <meta property="og:description" content="With this extension, you can easily share from websites to Bluesky. Just click on the current Twitter (X) share button on the page, and the extension will redirect you to post on Bluesky." />
-    <meta name="twitter:description" content="With this extension, you can easily share from websites to Bluesky. Just click on the current Twitter (X) share button on the page, and the extension will redirect you to post on Bluesky." />
+    <meta
+      property="og:description"
+      content="With this extension, you can easily share from websites to Bluesky. Just click on the current Twitter (X) share button on the page, and the extension will redirect you to post on Bluesky."
+    />
+    <meta
+      name="twitter:description"
+      content="With this extension, you can easily share from websites to Bluesky. Just click on the current Twitter (X) share button on the page, and the extension will redirect you to post on Bluesky."
+    />
     <meta property="og:image" content="https://share.notx.blue/share.png" />
     <meta name="twitter:image" content="https://share.notx.blue/share.png" />
     <link
       rel="icon"
       href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;💙&lt;/text&gt;&lt;/svg&gt;"
     />
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
       .text-blue-bsky {
         color: rgb(32, 139, 254);
@@ -27,64 +30,164 @@
       .bg-blue-bsky {
         background-color: rgb(32, 139, 254);
       }
+
+      .bg-blue-coffee {
+        background-color: #ffdd00;
+      }
+
+      .bg-orange-apoiase {
+        background-color: #ec4b3c;
+      }
+
+      #app {
+        margin: 2rem;
+      }
     </style>
   </head>
-  <body>
+  <body class="bg-gray-50">
+    <a
+      href="https://down.blue/"
+      target="_blank"
+      ref="alert"
+      rel="noopener"
+      class="block bg-blue-100 text-blue-800 px-4 m-0 py-2 text-xs"
+    >
+      🔽 Effortlessly download Bluesky videos with
+      <span class="inline-block font-bold border-solid border-b border-blue-800"
+        >down.blue</span
+      >. Try it!
+    </a>
     <div id="app">
       <template>
         <div
-          class="min-h-screen flex flex-col items-center justify-center bg-gray-50"
+          class="min-h-screen flex flex-col items-center justify-center"
         >
-          <!-- Header -->
-          <header class="text-center mb-8">
-            <img src="logo.png" class="mx-auto my-8" />
-            <h1 class="text-4xl font-bold text-gray-800">{{ $t('title') }}</h1>
-            <p class="text-lg text-gray-600 mt-6 max-w-3xl mx-auto">
+          <header class="text-center mb-6">
+            <img src="logo.png" class="mx-auto mb-8" />
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">
+              {{ $t('title') }}
+            </h1>
+            <div>
+              <p
+                v-if="currentLanguage === 'en'"
+                class="text-black text-xs lowercase"
+              >
+                Work in Progress. Expect bugs. <a
+                  href="https://tally.so/r/wgQLp1"
+                  class="text-blue-bsky font-bold"
+                  target="_blank"
+                  >found one?</a
+                > • part of
+                <a href="https://notx.blue" class="text-blue-bsky">notx.blue</a>
+                by
+                <a
+                  href="https://bsky.app/profile/joseli.to"
+                  class="text-blue-bsky"
+                  >@joseli.to</a
+                >
+              </p>
+              <p v-else class="text-black text-xs lowercase">
+                Em desenvolvimento ativo. Achou algum bug?
+                <a
+                  href="https://tally.so/r/mZGjre"
+                  class="text-blue-bsky font-bold"
+                  target="_blank"
+                  >Me avise!</a
+                >
+                • Parte do
+                <a href="https://notx.blue" class="text-blue-bsky">notx.blue</a>
+                por
+                <a
+                  href="https://bsky.app/profile/joseli.to"
+                  class="text-blue-bsky"
+                  >@joseli.to</a
+                >
+              </p>
+            </div>
+            <p class="text-lg text-gray-600 mt-8 mb-4 max-w-3xl mx-auto">
               {{ $t('description') }}
             </p>
           </header>
 
           <!-- Call to Action Buttons -->
-          <div class="flex space-x-4 mb-12">
-            <a
-              :href="$t('getForChromeUrl')"
-              target="_blank"
-              class="bg-blue-bsky text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-200"
-            >
-              {{ $t('getForChrome') }}
-            </a>
-            <a
-              :href="$t('getForFirefoxUrl')"
-              target="_blank"
-              class="bg-blue-bsky text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-200"
-            >
-              {{ $t('getForFirefox') }}
-            </a>
+          <div class="flex flex-col md:flex-row gap-4 mb-12">
+            <div class="flex flex-col text-center w-64 bg-blue-100 shadow-lg p-4 rounded-xl">
+              <div class="mt-4 mb-6">
+                <a
+                  :href="$t('getForChromeUrl')"
+                  target="_blank"
+                  class="bg-blue-bsky text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-200 font-bold"
+                >
+                  {{ $t('getForChrome') }}
+                </a>
+              </div>
+              <div class="text-xs text-blue-900" v-if="currentLanguage === 'en'">
+                Also compatible with <strong>Chrome, Edge, Vivaldi, Opera, Brave, Kiwi</strong> and
+                numerous other browsers
+              </div>
+              <div class="text-xs text-blue-900" v-else>
+                Também compatível com <strong>Chrome, Edge, Vivaldi, Opera, Brave, Kiwi</strong> e uma
+                infinidade de navegadoers
+              </div>
+            </div>
+            <div class="flex flex-col text-center w-64 bg-blue-100 shadow-lg p-4 rounded-xl">
+              <div class="mt-4 mb-6">
+                <a
+                  :href="$t('getForFirefoxUrl')"
+                  target="_blank"
+                  class="bg-blue-bsky text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-200 font-bold"
+                >
+                  {{ $t('getForFirefox') }}
+                </a>
+              </div>
+              <div class="text-xs text-blue-900" v-if="currentLanguage === 'en'">
+                Supports <strong>Firefox Mobile</strong>, along with other browsers like
+                <strong>LibreWolf</strong> and <strong>Waterfox</strong>
+              </div>
+              <div class="text-xs text-blue-900" v-else>
+                Funciona também no Firefox Mobile</strong>, em outras versões como o
+                <strong>LibreWolf</strong> e o <strong>Waterfox</strong>
+              </div>
+            </div>
           </div>
+
+          <!-- Footer -->
           <footer class="text-center">
-            <p
-              v-if="currentLanguage === 'en'"
-              class="text-black text-xs lowercase"
-            >
-              Work in Progress. Expect bugs • part of
-              <a href="https://notx.blue" class="text-blue-bsky">notx.blue</a>
-              by
-              <a
-                href="https://bsky.app/profile/joseli.to"
-                class="text-blue-bsky"
-                >@joseli.to</a
-              >
-            </p>
-            <p v-else class="text-black text-xs lowercase">
-              Em desenvolvimento ativo • Feito em Pernambuco • Parte do
-              <a href="https://notx.blue" class="text-blue-bsky">notx.blue</a>
-              por
-              <a
-                href="https://bsky.app/profile/joseli.to"
-                class="text-blue-bsky"
-                >@joseli.to</a
-              >
-            </p>
+            <div class="mb-2 text-center text-xs">
+              <div class="lowercase mb-3" v-if="currentLanguage === 'en'">
+                Directly from 🇧🇷 Brazil by Joselito, with much love and care.
+                This site does not use any cookies or collect any data. This
+                site is not related to Bluesky.
+              </div>
+              <div class="lowercase mb-3" v-else>
+                Diretamente de Pernambuco por Joselito, com muito amor e
+                carinho. Este site não utiliza nenhum cookie nem coleta
+                absolutamente nenhum dado. Este site não tem nenhuma ligação com
+                o Bluesky.
+              </div>
+              <div>
+                <div
+                  class="inline-block font-mono py-2 my-2 font-bold text-xs lowercase"
+                >
+                  <span v-if="currentLanguage === 'en'">Support this project:</span>
+                  <span v-else>Apoie este projeto:</span>
+                </div>
+                <a
+                  href="https://apoia.se/joselito"
+                  target="_blank"
+                  rel="noopener"
+                  class="bg-orange-apoiase text-white font-mono px-3 py-2 my-2 rounded-full font-bold hover:bg-blue-600 ml-2 text-xs shadow inline-block"
+                  >APOIA.se</a
+                >
+                <a
+                  href="https://buymeacoffee.com/joselito"
+                  target="_blank"
+                  rel="noopener"
+                  class="bg-blue-coffee px-3 py-2 my-2 font-mono hover:text-white rounded-full font-bold hover:bg-blue-600 ml-2 text-xs shadow inline-block"
+                  >Buy me a Coffee</a
+                >
+              </div>
+            </div>
           </footer>
         </div>
       </template>
@@ -100,8 +203,8 @@
         en: {
           title: "Redirect Twitter Share to Bluesky",
           description:
-            'With this extension, you can easily share from websites to Bluesky. Just click on the current Twitter (X) share button on the page, and the extension will redirect you to post on Bluesky.',
-          getForChrome: "Get it for Chrome",
+            "With this extension, you can easily share from websites to Bluesky. Just click on the current Twitter (X) share button on the page, and the extension will redirect you to post on Bluesky.",
+          getForChrome: "Get it for Chromium",
           getForChromeUrl:
             "https://chromewebstore.google.com/detail/redirect-twitter-share-to/llobhiaihifghfpkflpmnocdhimpkobf",
           getForFirefox: "Get it for Firefox",
