@@ -91,13 +91,13 @@ supports Atmosphere clients other than bsky.app.
 
 ## 3. Prioritized evolutions
 
-Priority weighs user impact against effort. P1 items are in the `v2` branch prototype.
+Priority weighs user impact against effort. P1 items are implemented in the `v2` branch (extension 2.0.0).
 
 | # | Item | Why | Effort | Priority |
 |---|---|---|---|---|
 | 1 | **Redirect inside the extension** (bundled `share.html` instead of share.notx.blue/redirect) | Removes the network hop and the single point of failure behind the AMO complaint, works offline, prerequisite for Safari and for client choice | S | P1 |
 | 2 | **Choose the destination client** (options page): bsky.app, deer.social, Blacksky, a Mastodon instance, Threads, or a custom URL template with `{text}` | The one thing users of Atmosphere clients can't do today; ShareSwitch's main feature | S | P1 |
-| 3 | **Parsing and privacy fixes**: keep `hashtags`/`via`, fix the `%` crash, strip more trackers, stricter URL match incl. `www.`/`mobile.` hosts, drop `tabs`/`scripting`, remove `_metadata` | Real bugs found above; fewer install warnings | S | P1 |
+| 3 | **Parsing and privacy fixes**: keep `hashtags`, drop `via` (an X handle means nothing elsewhere), fix the `%` crash, strip more trackers, stricter URL match incl. `www.`/`mobile.` hosts, drop `tabs`/`scripting`, remove `_metadata` | Real bugs found above; fewer install warnings | S | P1 |
 | 4 | **Context menu**: share the page, a link or the selected text, to any enabled client | Competitors all have it | S | P1 |
 | 5 | **Tests and a loadable build**: unit tests for parsing, headless Chromium end-to-end test, `npm run build` producing Chrome and Firefox zips | No tests exist; stores require zips | S | P1 |
 | 6 | Share to several clients at once (open one compose tab per enabled client) | Cross-posters; cheap once #2 exists | S | P2 |
@@ -120,3 +120,7 @@ MV3 migration is not needed: the extension is already MV3 in both browsers.
   an embedded widget, which is not useful.
 - Mastodon uses a per-user instance field; Threads and the Atmosphere forks use their compose intents; anything
   else goes through the custom template.
+- Host permissions are unchanged from 1.6.0, so the update does not trigger Chrome's "new permissions" prompt
+  (which disables the extension until accepted). `www.` and `mobile.` hosts are still reached because X redirects
+  them to the bare host first. `tabs` and `scripting` are dropped; `storage` and `contextMenus` add no warning.
+- `hashtags` become `#tags` in the text; `via` is dropped.
