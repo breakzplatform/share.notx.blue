@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Share options</title>
+    <style>
+      :root { color-scheme: light dark; font: 14px/1.4 system-ui, sans-serif; }
+      body { margin: 16px; min-width: 360px; max-width: 520px; }
+      fieldset { border: 1px solid #8884; border-radius: 8px; margin: 0 0 12px; padding: 8px 12px; }
+      legend { font-weight: 600; }
+      label { display: block; margin: 4px 0; }
+      input[type="text"] { width: 100%; box-sizing: border-box; padding: 4px 6px; }
+      .hint { color: #888; font-size: 12px; margin: 2px 0 6px; }
+      table { border-collapse: collapse; width: 100%; }
+      td { padding: 3px 4px; }
+      td:not(:first-child) { text-align: center; width: 90px; }
+      #preview { word-break: break-all; font-family: ui-monospace, monospace; font-size: 12px; }
+      .error { color: #d33; }
+    </style>
+  </head>
+  <body>
+    <fieldset>
+      <legend>Clients</legend>
+      <table>
+        <thead>
+          <tr><td></td><td>Default</td><td>Context menu</td></tr>
+        </thead>
+        <tbody id="clients"></tbody>
+      </table>
+      <p class="hint">The default client receives the share buttons redirected from Twitter/X and the toolbar button.</p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Mastodon</legend>
+      <label>Instance <input type="text" id="mastodonInstance" placeholder="mastodon.social" /></label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Custom client</legend>
+      <label>Name <input type="text" id="customName" placeholder="My client" /></label>
+      <label>Compose URL <input type="text" id="customTemplate" placeholder="https://example.com/compose?text={text}" /></label>
+      <p class="hint"><code>{text}</code> is replaced by the URL-encoded post text.</p>
+    </fieldset>
+
+    <p>Preview: <span id="preview"></span></p>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>
