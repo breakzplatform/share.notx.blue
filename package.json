@@ -1,0 +1,14 @@
+{
+  "name": "share-notx-blue",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/unit/",
+    "test:e2e": "node --test --test-concurrency=1 test/e2e/",
+    "build": "node scripts/build.js"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}
