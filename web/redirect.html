@@ -17,17 +17,21 @@
     // Initialize an empty object to store the decoded parameters
     let decodedParams = {};
 
-    // Iterate through each parameter and decode its value
+    // URLSearchParams already decodes values; decoding again throws on "%"
     for (let [key, value] of params.entries()) {
-      decodedParams[key] = decodeURIComponent(value);
+      decodedParams[key] = value;
     }
 
     return decodedParams;
   }
 
   function removeUtmParams(url) {
-    // Create a URL object
-    const urlObj = new URL(url);
+    let urlObj;
+    try {
+      urlObj = new URL(url);
+    } catch {
+      return url;
+    }
 
     // Get all search parameters
     const params = urlObj.searchParams;
