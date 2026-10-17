@@ -1,5 +1,6 @@
 {
   "name": "share-notx-blue",
+  "license": "GPL-3.0-only",
   "version": "2.0.0",
   "private": true,
   "type": "module",

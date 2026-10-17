@@ -27,3 +27,8 @@ npm run build       # dist/share-notx-blue-<version>.zip
 
 To try it by hand, load `crx/` as an unpacked extension (`chrome://extensions`, developer mode) or as a temporary
 add-on in Firefox (`about:debugging`).
+
+## License
+
+GNU GPL version 3 with additional terms on attribution, renamed
+forks and trademarks: see [LICENSE](LICENSE) and [NOTICE](NOTICE).
